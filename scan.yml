@@ -1,0 +1,29 @@
+name: MEXC futures scan
+
+on:
+  schedule:
+    # Every 15 minutes, offset by 2 minutes to give MEXC time to settle the just-closed bar.
+    # NOTE: GitHub Actions cron is best-effort — runs can be delayed up to ~30m during peak load.
+    - cron: '2,17,32,47 * * * *'
+  workflow_dispatch:  # manual trigger button in the Actions tab
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Scan and alert
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scanner.py
