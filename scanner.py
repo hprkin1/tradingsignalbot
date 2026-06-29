@@ -6,8 +6,8 @@ no MEXC API key required. Posts matches to Telegram with a direct link
 to the futures pair on MEXC.
 
 Filter (all must pass on the most recently CLOSED 15m bar):
-  1. 24h price change >= +15%
-  2. Last 15m bar quote volume >= $200k USDT
+  1. 24h price change >= +5%
+  2. Last 15m bar quote volume >= $500k USDT
   3. Last bar volume > previous bar volume
   4. Last bar volume > 2 * 20-bar avg volume
   5. Close > rolling 96-bar high (24h breakout)
@@ -32,7 +32,7 @@ TELEGRAM_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 MIN_24H_PCT = 5.0
-MIN_BAR_QUOTE_VOL_USD = 200_000
+MIN_BAR_QUOTE_VOL_USD = 500_000
 VOL_VS_20BAR_MULT = 2.0
 BREAKOUT_LOOKBACK = 96            # 24h of 15m bars
 MOMENTUM_LOOKBACK = 4
